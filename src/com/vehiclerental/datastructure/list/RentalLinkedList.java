@@ -28,6 +28,24 @@ public class RentalLinkedList {
         return null;
     }
 
+    public Rental[] toArray() {
+        int size = 0;
+        RentalNode current = head;
+        while (current != null) {
+            size++;
+            current = current.next;
+        }
+
+        Rental[] arr = new Rental[size];
+        current = head;
+        int index = 0;
+        while (current != null) {
+            arr[index++] = current.data;
+            current = current.next;
+        }
+        return arr;
+    }
+
     public void display() {
         if (head == null) {
             System.out.println("No rental records available.");

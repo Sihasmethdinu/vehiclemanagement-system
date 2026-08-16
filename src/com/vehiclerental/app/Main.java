@@ -5,6 +5,7 @@ import java.util.Scanner;
 import com.vehiclerental.algorithm.SearchAlgorithms;
 import com.vehiclerental.algorithm.SortingAlgorithms;
 import com.vehiclerental.model.BookingRequest;
+import com.vehiclerental.model.Rental;
 import com.vehiclerental.model.Vehicle;
 import com.vehiclerental.service.VehicleRentalService;
 import com.vehiclerental.util.InputUtil;
@@ -13,6 +14,9 @@ public class Main {
     private static final Scanner scanner = new Scanner(System.in);
     private static final InputUtil input = new InputUtil(scanner);
     private static final VehicleRentalService service = new VehicleRentalService();
+
+    private static final String ADMIN_USERNAME = "admin";
+    private static final String ADMIN_PASSWORD = "admin123";
 
     public static void main(String[] args) {
         runMainMenu();
@@ -23,23 +27,8 @@ public class Main {
             System.out.println("\n====================================================");
             System.out.println("        VEHICLE RENTAL MANAGEMENT SYSTEM");
             System.out.println("====================================================");
-            System.out.println("1.  Show Fixed Arrays");
-            System.out.println("2.  Add Vehicle");
-            System.out.println("3.  Display Vehicles");
-            System.out.println("4.  Delete Vehicle");
-            System.out.println("5.  Search Vehicle");
-            System.out.println("6.  Add Customer");
-            System.out.println("7.  Display Customers");
-            System.out.println("8.  Rent Vehicle");
-            System.out.println("9.  Return Vehicle");
-            System.out.println("10. Booking Queue Operations");
-            System.out.println("11. Stack: Recent Activity / Undo");
-            System.out.println("12. Hash Table and Set ADT Demo");
-            System.out.println("13. BST Operations");
-            System.out.println("14. AVL Tree Operations");
-            System.out.println("15. Graph Operations");
-            System.out.println("16. Sorting and Performance Comparison");
-            System.out.println("17. Display Rentals");
+            System.out.println("1.  Admin Login");
+            System.out.println("2.  Customer");
             System.out.println("0.  Exit");
             System.out.println("====================================================");
 
@@ -47,55 +36,12 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    showFixedArrays();
+                    if (adminLogin()) {
+                        runAdminMenu();
+                    }
                     break;
                 case 2:
-                    addVehicleFromInput();
-                    break;
-                case 3:
-                    service.getVehicleList().display();
-                    break;
-                case 4:
-                    deleteVehicleFromInput();
-                    break;
-                case 5:
-                    searchVehicleMenu();
-                    break;
-                case 6:
-                    addCustomerFromInput();
-                    break;
-                case 7:
-                    service.getCustomerList().display();
-                    break;
-                case 8:
-                    rentVehicleFromInput();
-                    break;
-                case 9:
-                    returnVehicleFromInput();
-                    break;
-                case 10:
-                    bookingQueueMenu();
-                    break;
-                case 11:
-                    activityStackMenu();
-                    break;
-                case 12:
-                    hashTableAndSetMenu();
-                    break;
-                case 13:
-                    bstMenu();
-                    break;
-                case 14:
-                    avlMenu();
-                    break;
-                case 15:
-                    graphMenu();
-                    break;
-                case 16:
-                    sortingMenu();
-                    break;
-                case 17:
-                    service.getRentalList().display();
+                    runCustomerMenu();
                     break;
                 case 0:
                     System.out.println("Thank you. Program ended.");
@@ -106,13 +52,168 @@ public class Main {
         }
     }
 
-    private static void showFixedArrays() {
-        System.out.println("\n--- Array Data Structure Demo ---");
-        printStringArray("Vehicle Types", service.getVehicleTypes());
-        printStringArray("Fuel Types", service.getFuelTypes());
-        printStringArray("Branches", service.getBranches());
-        System.out.println("Array access example: VehicleTypes[0] = " + service.getVehicleTypes()[0]);
-        System.out.println("Array length: VehicleTypes.length = " + service.getVehicleTypes().length);
+    private static boolean adminLogin() {
+        System.out.println("\n--- Admin Login ---");
+        String username = input.readText("Username: ");
+        String password = input.readText("Password: ");
+
+        if (username.equals(ADMIN_USERNAME) && password.equals(ADMIN_PASSWORD)) {
+            System.out.println("Login successful.");
+            return true;
+        }
+        System.out.println("Invalid username or password.");
+        return false;
+    }
+
+    private static void runAdminMenu() {
+        while (true) {
+            System.out.println("\n====================================================");
+            System.out.println("                  ADMIN MENU");
+            System.out.println("====================================================");
+            System.out.println("1.  Add Vehicle");
+            System.out.println("2.  Display Vehicles");
+            System.out.println("3.  Delete Vehicle");
+            System.out.println("4.  Search Vehicle");
+            System.out.println("5.  Add Customer");
+            System.out.println("6.  Display Customers");
+            System.out.println("7.  Booking Queue Operations");
+            System.out.println("8.  Stack: Recent Activity / Undo");
+            System.out.println("9.  Hash Table and Set ADT Demo");
+            System.out.println("10. BST Operations");
+            System.out.println("11. AVL Tree Operations");
+            System.out.println("12. Graph Operations");
+            System.out.println("13. Sorting and Performance Comparison");
+            System.out.println("14. Display Rentals");
+            System.out.println("0.  Back");
+            System.out.println("====================================================");
+
+            int choice = input.readInt("Enter choice: ");
+
+            switch (choice) {
+                case 1:
+                    addVehicleFromInput();
+                    break;
+                case 2:
+                    service.getVehicleList().display();
+                    break;
+                case 3:
+                    deleteVehicleFromInput();
+                    break;
+                case 4:
+                    searchVehicleMenu();
+                    break;
+                case 5:
+                    addCustomerFromInput();
+                    break;
+                case 6:
+                    service.getCustomerList().display();
+                    break;
+                case 7:
+                    bookingQueueMenu();
+                    break;
+                case 8:
+                    activityStackMenu();
+                    break;
+                case 9:
+                    hashTableAndSetMenu();
+                    break;
+                case 10:
+                    bstMenu();
+                    break;
+                case 11:
+                    avlMenu();
+                    break;
+                case 12:
+                    graphMenu();
+                    break;
+                case 13:
+                    sortingMenu();
+                    break;
+                case 14:
+                    service.getRentalList().display();
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println("Invalid choice. Try again.");
+            }
+        }
+    }
+
+    private static void runCustomerMenu() {
+        while (true) {
+            System.out.println("\n====================================================");
+            System.out.println("                CUSTOMER MENU");
+            System.out.println("====================================================");
+            System.out.println("1.  Display Available Vehicles");
+            System.out.println("2.  Search Vehicle");
+            System.out.println("3.  Rent Vehicle");
+            System.out.println("4.  Return Vehicle");
+            System.out.println("5.  View My Rentals");
+            System.out.println("0.  Back");
+            System.out.println("====================================================");
+
+            int choice = input.readInt("Enter choice: ");
+
+            switch (choice) {
+                case 1:
+                    displayAvailableVehicles();
+                    break;
+                case 2:
+                    searchVehicleMenu();
+                    break;
+                case 3:
+                    rentVehicleFromInput();
+                    break;
+                case 4:
+                    returnVehicleFromInput();
+                    break;
+                case 5:
+                    viewMyRentals();
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println("Invalid choice. Try again.");
+            }
+        }
+    }
+
+    private static void displayAvailableVehicles() {
+        Vehicle[] vehicles = service.getVehicleList().toArray();
+        boolean found = false;
+        for (int i = 0; i < vehicles.length; i++) {
+            if (vehicles[i].isAvailable()) {
+                if (!found) {
+                    Vehicle.printHeader();
+                    found = true;
+                }
+                vehicles[i].printRow();
+            }
+        }
+        if (!found) {
+            System.out.println("No vehicles are currently available.");
+        }
+    }
+
+    private static void viewMyRentals() {
+        System.out.println("\n--- View My Rentals ---");
+        int customerId = input.readInt("Enter your Customer ID: ");
+
+        Rental[] rentals = service.getRentalList().toArray();
+        boolean found = false;
+        for (int i = 0; i < rentals.length; i++) {
+            if (rentals[i].getCustomerId() == customerId) {
+                if (!found) {
+                    Rental.printHeader();
+                    found = true;
+                }
+                rentals[i].printRow();
+            }
+        }
+        if (!found) {
+            System.out.println("No rentals found for Customer ID " + customerId);
+        }
     }
 
     private static void printStringArray(String title, String[] arr) {
