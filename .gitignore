@@ -15,4 +15,5 @@ bin/
 .vscode/s
 
 # OS files
-.DS_Stores
+.DS_Stores.DS_Store
+src/com/vehiclerental/out/
